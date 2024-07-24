@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-image:url('https://as1.ftcdn.net/v2/jpg/06/47/68/82/1000_F_647688201_jtOez4eZIXNzluHSEkNanPeHqsfdmwUc.jpg');
+    display: table;
+    width: 100%;
+    height: 100vh;
+    background-position: 30% 45%;
+    background-size: cover;
+}
+
+header {
+   background-color: gray;;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: .8;
+}
+
+main {
+    margin: 50px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; 
+    background-color: gray;
+    opacity: .8; 
+    width: 120px;
+    height: 40px;  
+    border:none; 
+    border-radius: 15px;
+}
+button:hover{
+    background-color: aquamarine;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calendar-container, #timeslots-container {
+        width: 100%;
+    }
+
+    .days-of-week, #days-container {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}

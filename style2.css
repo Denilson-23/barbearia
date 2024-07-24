@@ -1,0 +1,62 @@
+body{
+    background-image:url('https://as1.ftcdn.net/v2/jpg/06/47/68/82/1000_F_647688201_jtOez4eZIXNzluHSEkNanPeHqsfdmwUc.jpg');  
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: table;
+    width: 100%;
+    height: 100vh;
+    background-position: 30% 45%;
+    background-size: cover;
+}
+    
+header{
+    background-color: gray;;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: .8;
+    margin: 0;
+}
+.professional-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.professional {
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: gray ;
+    opacity: .8;
+    margin-top: 30px;
+}
+
+.professional img {
+    width: 100%;
+    height: auto;
+}
+
+.professional button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calendar-container, #timeslots-container {
+        width: 100%;
+    }
+
+    .days-of-week, #days-container {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}

@@ -1,0 +1,239 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-image: url('https://as1.ftcdn.net/v2/jpg/06/47/68/82/1000_F_647688201_jtOez4eZIXNzluHSEkNanPeHqsfdmwUc.jpg');
+    display: table;
+    width: 100%;
+    height: 100vh;
+    background-position: 30% 45%;
+    background-size: cover;
+}
+
+header {
+    background-color: gray;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    opacity: .8;
+}
+
+h1 {
+    font-family: 'Garamond', serif;
+    font-size: 2.5em;
+    color: black;
+}
+
+p {
+    font-size: 30px;
+    font-family: 'Garamond', serif;
+    font-weight: 700;
+
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    opacity: .8;
+}
+
+.calendar-container,
+#timeslots-container {
+    width: 45%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.month-year {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.days-of-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    background-color: gray;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 0;
+}
+
+#days-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+
+}
+
+.day {
+    border: 1px solid #ccc;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.day:hover {
+    background-color: #4e9caa;
+}
+
+.day.empty {
+    background-color: transparent;
+}
+
+.day.past {
+    background-color: rgb(53, 50, 50);
+    pointer-events: none;
+    color: white;
+}
+
+.day.today {
+    background-color: lightgreen;
+}
+
+.day.today:hover {
+    background-color: #4e9caa;
+}
+
+#timeslots {
+    margin-top: 20px;
+}
+
+.timeslot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: gray;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.timeslot:hover {
+    background-color: #4e9caa;
+}
+
+/* Estilo para o modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: rgb(201, 201, 201);
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-top: 10px;
+}
+
+form input,
+form button {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #6b4f4f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20PX;
+}
+
+form button:hover {
+    background-color: #8b6f6f;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .calendar-container,
+    #timeslots-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .days-of-week,
+    #days-container {
+        grid-template-columns: repeat(7, 1fr);
+        width: 80%
+    }
+
+    .month-year {
+        font-size: 1.2em;
+        margin-bottom: 5px;
+    }
+
+    .day {
+        padding: 10px;
+    }
+
+    .timeslot {
+        padding: 8px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    form>label,
+    form>input,
+    form>button {
+        margin-top: 10px;
+        padding: 8px;
+    }
+}
