@@ -98,19 +98,19 @@
             }
 
             function showTimeslots(day) {
-                const timeslotsContainer = document.getElementById('timeslots-container');
-                const timeslots = document.getElementById('timeslots');
-                timeslots.innerHTML = '';
+    const timeslotsContainer = document.getElementById('timeslots-container');
+    const timeslots = document.getElementById('timeslots');
+    timeslots.innerHTML = '';
 
-                selectedDate.textContent = `Dia selecionado: ${day} de ${monthNames[month]}`;
-                for (let hour = 8; hour <= 18; hour++) {
-                    const timeslot = document.createElement('div');
-                    timeslot.className = 'timeslot';
-                    timeslot.textContent = `${hour}:00 - ${hour + 1}:00`;
-                    timeslot.onclick = () => openModal(day, hour);
-                    timeslots.appendChild(timeslot);
-                }
-            }
+    selectedDate.textContent = `Dia selecionado: ${day} de ${monthNames[month]}`;
+    for (let hour = 7; hour <= 18; hour++) { // Aqui você define os horários
+        const timeslot = document.createElement('div');
+        timeslot.className = 'timeslot';
+        timeslot.textContent = `${hour}:00 - ${hour + 1}:00`;
+        timeslot.onclick = () => openModal(day, hour);
+        timeslots.appendChild(timeslot);
+    }
+}
 
             function openModal(day, hour) {
                 modal.style.display = "block";

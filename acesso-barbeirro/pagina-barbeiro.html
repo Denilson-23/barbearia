@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração do Barbeiro</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <header>
+        <h1>Administração do Barbeiro</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="calendar-container">
+                <div class="month-year">
+                    <div id="month-year"></div>
+                </div>
+                <div class="days-of-week">
+                    <div>Dom</div>
+                    <div>Seg</div>
+                    <div>Ter</div>
+                    <div>Qua</div>
+                    <div>Qui</div>
+                    <div>Sex</div>
+                    <div>Sáb</div>
+                </div>
+                <div id="days-container"></div>
+            </div>
+            <div id="timeslots-container">
+                <h3>Horários Agendados</h3>
+                <div id="selected-date"></div>
+                <div id="timeslots"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Informações do Agendamento</h2>
+            <p id="modal-date-time"></p>
+            <p id="modal-client-info"></p>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
