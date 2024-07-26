@@ -84,7 +84,7 @@ p {
     padding: 30px;
     text-align: center;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .day:hover {
@@ -96,7 +96,7 @@ p {
 }
 
 .day.past {
-    background-color: rgb(53, 50, 50);
+    background-color: rgb(189, 189, 189);
     pointer-events: none;
     color: white;
 }
