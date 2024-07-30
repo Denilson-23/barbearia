@@ -55,8 +55,12 @@ p {
 }
 
 .month-year {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 1.5em;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .days-of-week {
@@ -187,7 +191,7 @@ form button {
     color: white;
     border: none;
     cursor: pointer;
-    margin-top: 20PX;
+    margin-top: 20px;
 }
 
 form button:hover {

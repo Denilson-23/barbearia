@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const daysContainer = document.getElementById('days-container');
     const monthYear = document.getElementById('month-year');
     const selectedDate = document.getElementById('selected-date');
@@ -6,29 +6,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalContent = document.getElementById('modal-date-time');
     const modalClientInfo = document.getElementById('modal-client-info');
     const span = document.getElementsByClassName('close')[0];
-    const prevMonthBtn = document.getElementById('prev-month');
-    const nextMonthBtn = document.getElementById('next-month');
-
-    let date = new Date();
+    const date = new Date();
     let year = date.getFullYear();
     let month = date.getMonth();
     const today = date.getDate();
+    let appointments = {}; // Placeholder for appointments
 
     const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-
-    const appointments = [
-        { date: '27/07/2024', time: '10:00 - 11:00', name: 'João Silva', phone: '123456789', email: 'joao@example.com' },
-        { date: '27/07/2024', time: '11:00 - 12:00', name: 'Maria Oliveira', phone: '987654321', email: 'maria@example.com' },
-        { date: `${today}/07/2024`, time: '10:00 - 11:00', name: 'Teste Cliente', phone: '123456789', email: 'teste@example.com' },
-    ];
-
+    
     function renderCalendar() {
         daysContainer.innerHTML = '';
         monthYear.textContent = `${monthNames[month]} ${year}`;
-
+        
         const firstDayOfMonth = new Date(year, month, 1).getDay();
         const monthDays = new Date(year, month + 1, 0).getDate();
-
+        const todayDate = new Date();
+        
         for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyElement = document.createElement('div');
             emptyElement.className = 'day empty';
@@ -41,13 +34,31 @@ document.addEventListener('DOMContentLoaded', function () {
             dayElement.textContent = i;
 
             const currentDate = new Date(year, month, i);
-            if (i === today && month === date.getMonth() && year === date.getFullYear()) {
+            if (i === today && month === todayDate.getMonth() && year === todayDate.getFullYear()) {
                 dayElement.classList.add('today');
+            } else if (currentDate < todayDate && month === todayDate.getMonth() && year === todayDate.getFullYear()) {
+                dayElement.classList.add('past');
             }
-
+            
             dayElement.onclick = () => showTimeslots(i);
+            dayElement.addEventListener('mousedown', (e) => handleLongPress(e, dayElement));
+            dayElement.addEventListener('mouseup', clearLongPress);
+            dayElement.addEventListener('mouseleave', clearLongPress);
             daysContainer.appendChild(dayElement);
         }
+    }
+
+    function handleLongPress(e, element) {
+        e.preventDefault();
+        element.longPressTimeout = setTimeout(() => {
+            if (confirm('Você deseja anular essa data?')) {
+                element.classList.toggle('disabled');
+            }
+        }, 1000);
+    }
+
+    function clearLongPress(e) {
+        clearTimeout(e.currentTarget.longPressTimeout);
     }
 
     function showTimeslots(day) {
@@ -55,18 +66,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const timeslots = document.getElementById('timeslots');
         timeslots.innerHTML = '';
 
-        selectedDate.textContent = `Dia selecionado: ${day} de ${monthNames[month]}`;
+        selectedDate.textContent = `Dia selecionado: ${day}/${String(month + 1).padStart(2, '0')}/${year}`;
         for (let hour = 7; hour <= 18; hour++) {
             const timeslot = document.createElement('div');
             timeslot.className = 'timeslot';
             timeslot.textContent = `${hour}:00 - ${hour + 1}:00`;
-
-            const appointment = appointments.find(app => app.date === `${day}/${String(month + 1).padStart(2, '0')}/${year}` && app.time === `${hour}:00 - ${hour + 1}:00`);
-            if (appointment) {
+            
+            if (appointments[`${year}-${month + 1}-${day}-${hour}`]) {
                 timeslot.classList.add('occupied');
-                timeslot.onclick = () => openModal(day, hour, appointment);
+                timeslot.onclick = () => openModal(day, hour, appointments[`${year}-${month + 1}-${day}-${hour}`]);
+            } else {
+                timeslot.onclick = () => openModal(day, hour);
+                timeslot.addEventListener('mousedown', (e) => handleLongPress(e, timeslot));
+                timeslot.addEventListener('mouseup', clearLongPress);
+                timeslot.addEventListener('mouseleave', clearLongPress);
             }
-
             timeslots.appendChild(timeslot);
         }
     }
@@ -74,25 +88,24 @@ document.addEventListener('DOMContentLoaded', function () {
     function openModal(day, hour, appointment) {
         modal.style.display = "block";
         modalContent.textContent = `Data: ${day}/${String(month + 1).padStart(2, '0')}/${year}, Hora: ${hour}:00 - ${hour + 1}:00`;
-        modalClientInfo.innerHTML = `
-            <p>Nome: ${appointment.name}</p>
-            <p>Telefone: ${appointment.phone}</p>
-            <p>Email: ${appointment.email}</p>
-        `;
+        if (appointment) {
+            modalClientInfo.textContent = `Nome: ${appointment.name}\nTelefone: ${appointment.phone}\nEmail: ${appointment.email}`;
+        } else {
+            modalClientInfo.textContent = '';
+        }
     }
 
-
-    span.onclick = function () {
+    span.onclick = function() {
         modal.style.display = "none";
     }
 
-    window.onclick = function (event) {
+    window.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     }
 
-    prevMonthBtn.onclick = function () {
+    document.getElementById('prev-month').onclick = function() {
         if (month === 0) {
             month = 11;
             year--;
@@ -102,16 +115,14 @@ document.addEventListener('DOMContentLoaded', function () {
         renderCalendar();
     }
 
-    nextMonthBtn.onclick = function () {
-        if (month === 11) {
+    document.getElementById('next-month').onclick = function() {
+        month++;
+        if (month > 11) {
             month = 0;
             year++;
-        } else {
-            month++;
         }
         renderCalendar();
     }
 
     renderCalendar();
-    showTimeslots(today);
 });

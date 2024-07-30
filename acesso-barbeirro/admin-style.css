@@ -188,3 +188,18 @@ header {
         padding: 10px 3px;
     }
 }
+
+/* CSS */
+.day.past {
+    background-color: rgb(189, 189, 189);
+    color: white;
+    cursor: pointer;
+}
+
+.day.disabled, .timeslot.disabled {
+    background-color: red !important;
+    color: white;
+    pointer-events: none;
+}
+
+
