@@ -12,40 +12,43 @@ body {
 }
 
 header {
-    background-color: gray;
-    color: white;
     text-align: center;
-    padding: 1em 0;
-    opacity: .8;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 24px;
 }
 
 h1 {
     font-family: 'Garamond', serif;
     font-size: 2.5em;
-    color: black;
+    color: white;
 }
-
-p {
-    font-size: 30px;
-    font-family: 'Garamond', serif;
-    font-weight: 700;
-
-}
-
 .container {
     display: flex;
     justify-content: space-around;
     padding: 20px;
-    opacity: .8;
+   
 }
+
+p ,h3{
+    font-size: 30px;
+    font-family: 'Garamond', serif;
+    font-weight: 700;
+    color: white;
+    
+
+}
+
+
 
 .calendar-container,
 #timeslots-container {
     width: 45%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    
 }
 
 .calendar-container {
@@ -73,7 +76,7 @@ p {
     background-color: gray;
     color: white;
     border-radius: 5px;
-    padding: 5px 0;
+    padding: 5px 10px;
 }
 
 #days-container {
@@ -82,21 +85,28 @@ p {
     gap: 5px;
 
 }
-
+#selected-date,
+#month-year{
+    color: white;
+}
 .day {
-    border: 1px solid #ccc;
+   
     padding: 30px;
     text-align: center;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 5px;
+    color: white;
 }
 
-.day:hover {
-    background-color: #4e9caa;
+.day:hover,
+.timeslot:hover,
+.day.today:hover  {
+    background-color: rgba(189, 189, 189, 0.5);;
 }
 
 .day.empty {
     background-color: transparent;
+    color: white;
 }
 
 .day.past {
@@ -106,30 +116,25 @@ p {
 }
 
 .day.today {
-    background-color: lightgreen;
+    background-color: #3f51b5;
 }
 
-.day.today:hover {
-    background-color: #4e9caa;
-}
+
 
 #timeslots {
     margin-top: 20px;
 }
 
 .timeslot {
-    border: 1px solid #ccc;
+   
     padding: 10px;
     margin-bottom: 10px;
     cursor: pointer;
-    background-color: gray;
+    color: white;
     text-align: center;
     border-radius: 5px;
 }
 
-.timeslot:hover {
-    background-color: #4e9caa;
-}
 
 /* Estilo para o modal */
 .modal {
@@ -197,6 +202,17 @@ form button {
 form button:hover {
     background-color: #8b6f6f;
 }
+#prev-month, #next-month{
+    background-color: gray;
+    width: 36px;
+    height: 29px;
+    border:none;
+    border-radius: 5px;
+    color: white;
+}
+#prev-month:hover, #next-month:hover{
+    background-color:#3a3e3f ;
+}
 
 @media (max-width: 768px) {
     .container {
@@ -214,7 +230,7 @@ form button:hover {
     .days-of-week,
     #days-container {
         grid-template-columns: repeat(7, 1fr);
-        width: 80%
+        width: 94%
     }
 
     .month-year {
@@ -231,7 +247,7 @@ form button:hover {
     }
 
     .modal-content {
-        width: 90%;
+        width: 80%
     }
 
     form>label,

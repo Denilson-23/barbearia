@@ -17,30 +17,40 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderCalendar(month, year) {
         daysContainer.innerHTML = '';
         monthYear.textContent = `${monthNames[month]} ${year}`;
-
+    
         const firstDayOfMonth = new Date(year, month, 1).getDay();
         const monthDays = new Date(year, month + 1, 0).getDate();
-
+        const now = new Date();
+    
         for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyElement = document.createElement('div');
             emptyElement.className = 'day empty';
             daysContainer.appendChild(emptyElement);
         }
-
+    
         for (let i = 1; i <= monthDays; i++) {
             const dayElement = document.createElement('div');
             dayElement.className = 'day';
             dayElement.textContent = i;
-
+    
             const currentDate = new Date(year, month, i);
-            if (currentDate < new Date() && month === currentMonth && year === currentYear) {
+    
+            if (currentDate.toDateString() === now.toDateString() && month === now.getMonth() && year === now.getFullYear()) {
+                dayElement.classList.add('today');
+                dayElement.onclick = () => showTimeslots(i);
+            } else if (currentDate < new Date()) {
                 dayElement.classList.add('past');
             } else {
                 dayElement.onclick = () => showTimeslots(i);
             }
+    
             daysContainer.appendChild(dayElement);
         }
     }
+    
+    renderCalendar(currentMonth, currentYear);
+    
+     
 
     function showTimeslots(day) {
         const timeslotsContainer = document.getElementById('timeslots-container');
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let hour = 7; hour <= 18; hour++) { // Aqui você define os horários
             const timeslot = document.createElement('div');
             timeslot.className = 'timeslot';
-            timeslot.textContent = `${hour}:00 - ${hour + 1}:00`;
+            timeslot.textContent = `${hour}:00 - ${hour + 1}:00 `;
             timeslot.onclick = () => openModal(day, hour);
             timeslots.appendChild(timeslot);
         }

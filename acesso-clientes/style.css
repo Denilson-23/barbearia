@@ -12,10 +12,11 @@ body {
 }
 
 header {
-   background-color: gray;;
+   background-color: black;;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: .8;
+    color: white;
 }
 
 main {
@@ -24,17 +25,18 @@ main {
 
 button {
     padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer; 
-    background-color: gray;
-    opacity: .8; 
-    width: 120px;
-    height: 40px;  
-    border:none; 
-    border-radius: 15px;
+    font-size: 19px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    opacity: .8;
+    width: 139px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
 }
 button:hover{
-    background-color: aquamarine;
+    background-color: rgba(189, 189, 189, 0.5);
 }
 
 @media (max-width: 768px) {

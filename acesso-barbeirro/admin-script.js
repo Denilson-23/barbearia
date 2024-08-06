@@ -6,22 +6,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalContent = document.getElementById('modal-date-time');
     const modalClientInfo = document.getElementById('modal-client-info');
     const span = document.getElementsByClassName('close')[0];
+    const confirmModal = document.getElementById('confirm-modal');
+    const confirmMessage = document.getElementById('confirm-message');
+    const confirmYes = document.getElementById('confirm-yes');
+    const confirmNo = document.getElementById('confirm-no');
     const date = new Date();
     let year = date.getFullYear();
     let month = date.getMonth();
     const today = date.getDate();
     let appointments = {}; // Placeholder for appointments
+    let longPressTimer; // Timer for long press detection
+    let longPressCallback; // Store the callback to execute on confirmation
 
     const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-    
+
     function renderCalendar() {
         daysContainer.innerHTML = '';
         monthYear.textContent = `${monthNames[month]} ${year}`;
-        
+
         const firstDayOfMonth = new Date(year, month, 1).getDay();
         const monthDays = new Date(year, month + 1, 0).getDate();
         const todayDate = new Date();
-        
+
         for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyElement = document.createElement('div');
             emptyElement.className = 'day empty';
@@ -39,26 +45,66 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (currentDate < todayDate && month === todayDate.getMonth() && year === todayDate.getFullYear()) {
                 dayElement.classList.add('past');
             }
-            
-            dayElement.onclick = () => showTimeslots(i);
-            dayElement.addEventListener('mousedown', (e) => handleLongPress(e, dayElement));
-            dayElement.addEventListener('mouseup', clearLongPress);
-            dayElement.addEventListener('mouseleave', clearLongPress);
+
+            dayElement.addEventListener('click', (e) => {
+                if (!dayElement.classList.contains('disabled')) {
+                    showTimeslots(i);
+                }
+            });
+            dayElement.addEventListener('touchstart', (e) => {
+                if (!dayElement.classList.contains('disabled')) {
+                    showTimeslots(i);
+                }
+            });
+            addLongPressEvent(dayElement, () => {
+                if (dayElement.classList.contains('disabled')) {
+                    showConfirmModal('Você deseja habilitar essa data?', () => {
+                        dayElement.classList.remove('disabled');
+                    });
+                } else {
+                    showConfirmModal('Você deseja anular essa data?', () => {
+                        dayElement.classList.add('disabled');
+                    });
+                }
+            });
             daysContainer.appendChild(dayElement);
         }
     }
 
-    function handleLongPress(e, element) {
-        e.preventDefault();
-        element.longPressTimeout = setTimeout(() => {
-            if (confirm('Você deseja anular essa data?')) {
-                element.classList.toggle('disabled');
-            }
-        }, 1000);
-    }
+    function addLongPressEvent(element, callback) {
+        let startX, startY;
+        const threshold = 10; // Allowable movement threshold for long press
 
-    function clearLongPress(e) {
-        clearTimeout(e.currentTarget.longPressTimeout);
+        element.addEventListener('mousedown', startLongPress);
+        element.addEventListener('mouseup', cancelLongPress);
+        element.addEventListener('mouseleave', cancelLongPress);
+        element.addEventListener('touchstart', startLongPress);
+        element.addEventListener('touchend', cancelLongPress);
+        element.addEventListener('touchmove', cancelLongPress);
+
+        function startLongPress(e) {
+            e.preventDefault();
+            if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }
+            longPressTimer = setTimeout(() => {
+                longPressCallback = callback;
+                longPressCallback();
+            }, 1000);
+        }
+
+        function cancelLongPress(e) {
+            if (e.type === 'touchmove') {
+                const moveX = e.touches[0].clientX;
+                const moveY = e.touches[0].clientY;
+                if (Math.abs(moveX - startX) > threshold || Math.abs(moveY - startY) > threshold) {
+                    clearTimeout(longPressTimer);
+                }
+            } else {
+                clearTimeout(longPressTimer);
+            }
+        }
     }
 
     function showTimeslots(day) {
@@ -71,15 +117,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const timeslot = document.createElement('div');
             timeslot.className = 'timeslot';
             timeslot.textContent = `${hour}:00 - ${hour + 1}:00`;
-            
+
             if (appointments[`${year}-${month + 1}-${day}-${hour}`]) {
                 timeslot.classList.add('occupied');
-                timeslot.onclick = () => openModal(day, hour, appointments[`${year}-${month + 1}-${day}-${hour}`]);
+                timeslot.addEventListener('click', (e) => openModal(day, hour, appointments[`${year}-${month + 1}-${day}-${hour}`]));
+                timeslot.addEventListener('touchstart', (e) => openModal(day, hour, appointments[`${year}-${month + 1}-${day}-${hour}`]));
             } else {
-                timeslot.onclick = () => openModal(day, hour);
-                timeslot.addEventListener('mousedown', (e) => handleLongPress(e, timeslot));
-                timeslot.addEventListener('mouseup', clearLongPress);
-                timeslot.addEventListener('mouseleave', clearLongPress);
+                timeslot.addEventListener('click', (e) => openModal(day, hour));
+                timeslot.addEventListener('touchstart', (e) => openModal(day, hour));
+                addLongPressEvent(timeslot, () => {
+                    if (timeslot.classList.contains('disabled')) {
+                        showConfirmModal('Você deseja habilitar esse horário?', () => {
+                            timeslot.classList.remove('disabled');
+                        });
+                    } else {
+                        showConfirmModal('Você deseja anular esse horário?', () => {
+                            timeslot.classList.add('disabled');
+                        });
+                    }
+                });
             }
             timeslots.appendChild(timeslot);
         }
@@ -93,6 +149,18 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             modalClientInfo.textContent = '';
         }
+    }
+
+    function showConfirmModal(message, callback) {
+        confirmMessage.textContent = message;
+        confirmModal.style.display = 'block';
+        confirmYes.onclick = () => {
+            callback();
+            confirmModal.style.display = 'none';
+        };
+        confirmNo.onclick = () => {
+            confirmModal.style.display = 'none';
+        };
     }
 
     span.onclick = function() {
@@ -126,3 +194,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderCalendar();
 });
+
