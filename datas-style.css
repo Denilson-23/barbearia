@@ -155,11 +155,12 @@ p ,h3{
 
 .modal-content {
     background-color: rgb(201, 201, 201);
-    margin: 5% auto;
+    margin: 1% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 60%;
     border-radius: 10px;
+    
 }
 #modal-date-time{
     color:#3f51b5 ;
