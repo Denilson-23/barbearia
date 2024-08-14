@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openModal(day, hour) {
         modal.style.display = "block";
-        modalContent.textContent = `Dia: ${day} de ${monthNames[currentMonth]}, Horário: ${hour}:00 - ${hour + 1}:00`;
+        modalContent.textContent = ` Dia: ${day} de ${monthNames[currentMonth]}, Horário: ${hour}:00 - ${hour + 1}:00`;
     }
 
     span.onclick = function() {

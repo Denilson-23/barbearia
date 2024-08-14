@@ -88,13 +88,14 @@ p ,h3{
 #selected-date,
 #month-year{
     color: white;
+    font-size: 22px;
 }
 .day {
    
     padding: 30px;
     text-align: center;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 50%;
     color: white;
 }
 
@@ -110,9 +111,10 @@ p ,h3{
 }
 
 .day.past {
-    background-color: rgb(189, 189, 189);
+   
     pointer-events: none;
     color: white;
+    opacity: .3;
 }
 
 .day.today {
@@ -159,7 +161,9 @@ p ,h3{
     width: 60%;
     border-radius: 10px;
 }
-
+#modal-date-time{
+    color:#3f51b5 ;
+}
 .close {
     color: #aaa;
     float: right;
@@ -192,7 +196,7 @@ form button {
 }
 
 form button {
-    background-color: #6b4f4f;
+    background-color: #3f51b5;
     color: white;
     border: none;
     cursor: pointer;
