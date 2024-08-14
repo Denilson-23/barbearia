@@ -9,15 +9,16 @@ body{
     background-position: 30% 45%;
     background-size: cover;
 }
-    
+
 header{
-    background-color: black;;
+    background-color: black;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     opacity: .8;
     margin: 0;
     color: white;
 }
+
 .professional-list {
     display: flex;
     justify-content: center;
@@ -42,6 +43,7 @@ header{
 .professional img {
     width: 100%;
     height: auto;
+    max-width: 100%; /* Garantir que a imagem não ultrapasse o container */
 }
 
 .professional button {
@@ -52,17 +54,20 @@ header{
     border-radius: 10px;
     border: none;
 }
+
 @media (max-width: 768px) {
-    .container {
+    .professional-list {
         flex-direction: column;
         align-items: center;
     }
 
-    .calendar-container, #timeslots-container {
-        width: 100%;
+    .professional {
+        width: 80%; /* Reduzir o tamanho dos cards em telas menores */
+        height: auto; /* Permitir que a altura seja ajustada automaticamente */
     }
 
-    .days-of-week, #days-container {
-        grid-template-columns: repeat(7, 1fr);
+    .professional img {
+        max-width: 100%;
+        height: auto;
     }
 }
